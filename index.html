@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | Webapp</title>
+    <style>
+      html, 
+      body {
+          width: 100%;
+          height: 100%;
+          padding: 0;
+          margin: 0;
+          color: black;
+          position: relative;
+      }
+
+      video_player_box, canvas, iframe, video, figure {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        width: 100%; 
+        height: 100%; 
+        background-color: black; 
+        max-width: 1120px; 
+        max-height: 630px; 
+      }
+	  
+	  #playpausebtn {
+		margin: 0;
+        position: absolute;
+		width: 100%;
+		height: 100%;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+	  }
+
+	  /*
+	  figcaption {
+		position: absolute;
+		bottom: -40px;
+		align-items: center;
+		background: #eaeaea;
+		width: 100%;
+		max-width: 1120px;
+		height: 40px;
+		padding: 0;
+		margin: 0;
+	  }
+	  
+	  #progress {
+		width: 82%;
+		max-width: 1120px;
+		height: 38px;
+		margin: 0;
+		padding: 0;
+	  }
+	  */
+	  #my-video, #videosrc {
+		max-width: 100vw;
+		padding: 0;
+		margin: 0;
+	  }
+
+	/*audio::-webkit-media-controls,
+	video::-webkit-media-controls {
+		display: none;
+	}
+	
+	audio::-webkit-media-controls-timeline,
+	video::-webkit-media-controls-timeline {
+		display: block;
+	}*/
+	
+	/* For the loader spiner */
+	.loader {
+	  border: 16px solid #f3f3f3;
+	  border-radius: 50%;
+	  border-top: 16px solid #3498db;
+	  width: 120px;
+	  height: 120px;
+	  -webkit-animation: spin 2s linear infinite; /* Safari */
+	  animation: spin 2s linear infinite;
+	}
+
+	/* Safari */
+	@-webkit-keyframes spin {
+	  0% { -webkit-transform: rotate(0deg); }
+	  100% { -webkit-transform: rotate(360deg); }
+	}
+
+	@keyframes spin {
+	  0% { transform: rotate(0deg); }
+	  100% { transform: rotate(360deg); }
+	}
+
+    </style>
+  </head>
+  <body style="text-align: center">
+	<div id="theSpinnerLoaderForMenu" class="loader" style="z-index: 1000; position: absolute; right: 0; left: 0; top: 0; bottom: 0; margin: auto; display: none;"></div>
+    <canvas id="unity-canvas" style="background: url('Build/a4378e2f7373bd6d0cccd1f09de8f184.jpg.unityweb') center / cover"></canvas>
+	<div id="video_player_box" style="text-align: center">
+		<div id="theSpinnerLoader" class="loader" style="z-index: 1000; position: absolute; right: 0; left: 0; top: 0; bottom: 0; margin: auto; display: none;"></div>
+		<figure>
+			<video id="my-video" playsinline autoplay controls poster="./bookr-class-logo-with-bg.jpg">
+				<source id="videosrc" src="" type="video/mp4" />
+					To view this video please enable JavaScript, and consider upgrading to a
+					web browser that
+			</video>
+			<!-- CODE FOR CUSTOM PROGRESS BAR - Pls don't delete it, because customer asked for this, but then he changed his mind - Maybe it will be useful again in the future!
+			<!--figcaption>
+				<progress id="progress" max="100" value="0">Progress</progress>
+			</figcaption-->
+		</figure>
+		<!-- Custom Play Button - Don't delete it - Customer asked for this but then changed his mind -->
+		<!--div id="video_controls_bar" style="opacity: 0">
+			<!--img id="playpausebtn" onclick="playPause(this,'my-video')" src="white-play-icon-png-4.jpg"/-->
+			<!--img id="playpausebtn" onclick="playPause(this,'my-video')"/-->
+		<!--/div-->
+	</div>
+	<!-- Original video tag and content was: -->
+    <!--video id="my-video" controls >
+      <source id="videosrc" src="https://bkrapi-win.v2.bookrclass.com/convertedBooks/ID97_20211112130024.mp4" type="video/mp4" />
+        To view this video please enable JavaScript, and consider upgrading to a
+        web browser that
+    </video-->
+    <ul id="book-list"></ul>
+    <script src="Build/WebGL_TestServerDeploy_2022_08_30_18_10.loader.js"></script>
+    <script src="baseFunctions.js"></script>
+    <script src="index.js"></script>
+    <script>
+      if (isVideoPlayerNeeded()) {         
+          LoadMobile();
+
+          var myobj = document.getElementById("unity-canvas");
+          myobj.remove();
+      } else {
+          var myobj = document.getElementById("video_player_box");
+          myobj.remove();
+          let myobj2 = document.getElementById("book-list");
+          myobj2.remove();
+
+          createUnityInstance(document.querySelector("#unity-canvas"), {
+            dataUrl: "Build/6038237f3a16d04111de504af2859e24.data.unityweb",
+            frameworkUrl: "Build/4516242288ad97aca3eeb9dbffbd35c3.js.unityweb",
+            codeUrl: "Build/1023ab14fdb8fec76ece9d455ae3df1e.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "Bookr",
+            productName: "Webapp",
+            productVersion: "1.0.8",
+          }).then((unityInstance) => {
+			window.unityInstance = unityInstance;
+		  });
+      }
+    </script>
+  </body>
+</html>

@@ -211,14 +211,8 @@ function BookDataRecived(jsonData, isLoggedIn)
         if (bookListHtmlItem) bookListHtmlItem.appendChild(li);
 
         if (book.id == bookId) {
-            if (book.previewUrls)
-            {
-                src = book.previewUrls.original;
-            } else {
-                alert("This video is unavailable on mobile");
-            }
-            
-            posterImg = book.coverUrls.optimal;
+            src = "https://video-books.thebookclub.com/book" + bookId + ".mp4"
+            posterImg = "https://video-books.thebookclub.com/book" + bookId + ".jpg";
             isCurrentBookFree = isCurrentBookFree || book.isFree;
             console.log("isCurrentBookFree : " + isCurrentBookFree);
         }
@@ -226,7 +220,6 @@ function BookDataRecived(jsonData, isLoggedIn)
     
     if (bookId){
         videoPlayerBoyHtml.hidden = false;
-		videoPlayerBoyHtml.style.display = "block";
         bookListHtmlItem.remove();
     } else {
         bookListHtmlItem.hidden = false;
@@ -268,10 +261,6 @@ function BookDataRecived(jsonData, isLoggedIn)
 
 function LoadMobile()
 {
-	bookListHtmlItem.hidden = true;
-	videoPlayerBoyHtml.hidden = true;
-	myVideoHtml.pause();
-	
 	const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop),
     });
@@ -281,7 +270,7 @@ function LoadMobile()
         bookId = params.bookId;
 
 	// production:
-	let bookDataUrl = bookId ? "https://api.v2.bookrclass.com/api/mobile/books?filters[id][]=" + bookId : "https://api.v2.bookrclass.com/api/mobile/books";
+	let bookDataUrl = "https://api.thebookclub.com/api/mobile/books";
 	
 	// staging:
 	//let bookDataUrl = bookId ? "https://api.staging.v2.bookrclass.com/api/mobile/books?filters[id][]=" + bookId : "https://api.staging.v2.bookrclass.com/api/mobile/books";
@@ -346,9 +335,9 @@ function LoadMobile()
         BookDataRecived(jsonData, false);
     });
 
-    //bookListHtmlItem.hidden = true;
-    //videoPlayerBoyHtml.hidden = true;
-    //myVideoHtml.pause();
+    bookListHtmlItem.hidden = true;
+    videoPlayerBoyHtml.hidden = true;
+    myVideoHtml.pause();
     /* Custom Progressbar - Don't delete it, maybe it can be useful later again - Client asked for it, then changed his mind!
     document.getElementById("my-video").addEventListener("timeupdate", function() {
     // if the video is loaded and duration is known

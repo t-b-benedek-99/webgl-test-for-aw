@@ -130,14 +130,14 @@
         web browser that
     </video-->
     <ul id="book-list"></ul>
-    <script src="Build/WebGL_test_build_2022_09_08_11_58.loader.js"></script>
+    <script src="Build/WebGL_test_build_2022_09_08_12_31.loader.js"></script>
     <script src="baseFunctions.js"></script>
     <script src="index.js"></script>
     <script>
       if (isVideoPlayerNeeded()) {         
           LoadMobile();
 		  
-		  document.getElementById("video_player_box").style.display = "block";
+		  //document.getElementById("video_player_box").style.display = "block";
 
           var myobj = document.getElementById("unity-canvas");
           myobj.remove();
@@ -148,7 +148,7 @@
           myobj2.remove();
 
           createUnityInstance(document.querySelector("#unity-canvas"), {
-            dataUrl: "Build/fa0090f16f96c98cfb082bf12cb2fcc7.data.unityweb",
+            dataUrl: "Build/8b796109e3bc2f9d44dd4e3667b4376e.data.unityweb",
             frameworkUrl: "Build/c48dddaea0e5ac9649afb495a20f6d8c.js.unityweb",
             codeUrl: "Build/4f8f2f347e5c935c3e6ac923a1ed317f.wasm.unityweb",
             streamingAssetsUrl: "StreamingAssets",

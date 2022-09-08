@@ -226,6 +226,7 @@ function BookDataRecived(jsonData, isLoggedIn)
     
     if (bookId){
         videoPlayerBoyHtml.hidden = false;
+		videoPlayerBoyHtml.style.display = "block";
         bookListHtmlItem.remove();
     } else {
         bookListHtmlItem.hidden = false;

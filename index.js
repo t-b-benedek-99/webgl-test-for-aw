@@ -10,9 +10,9 @@ var started = new Date();
 var isSSOEnabled = false;
 
 var ssoOverride = {
-    prod : "https://api.v2.bookrclass.com/api/",
-    staging : "https://api.staging2.v2.bookrclass.com/api/",
-    "vcloud-mock": "https://bookr-sso-mock-creatit-server.herokuapp.com/api/"
+    prod : null,
+    staging : null,
+    "vcloud-mock": null
 }
 var currentBooksNumOfPages = 0;
 var currentChildId = null;

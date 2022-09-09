@@ -7,6 +7,10 @@ var myVideoHtml = document.getElementById("my-video");
 var isCurrentBookFree = true;
 var src = "";
 var started = new Date();
+var isSSOEnabled = window.unityInstance.SendMessage('JavaScriptHook', 'IsSSOEnabled');
+
+console.log("is sso enabled : " + isSSOEnabled);
+
 var ssoOverride = {
     prod : "https://api.v2.bookrclass.com/api/",
     staging : "https://api.staging2.v2.bookrclass.com/api/",
@@ -239,9 +243,9 @@ function BookDataRecived(jsonData, isLoggedIn)
 		  
 		  currentVideoSeekerPosition = seekerPercent;
 		  
-		  if (seekerPercent > 80) {
+		  /*if (seekerPercent > 80) {
 			  myMoreThanEigthyPercentReachedHandler(seekerPercent);
-		  }
+		  }*/
 		});
 		
         /*myVideoHtml.addEventListener("click", function(event) { 
@@ -314,7 +318,7 @@ function LoadMobile()
                 console.error('Error:', error);
                 BookDataRecived(jsonData, false);
             });
-        } else if (params.ssoId && params.token) {
+        } else if (isSSOEnabled && params.ssoId && params.token) {
             //Login with deeplink provided token
             console.log("ssoid login started");
             var body = { "token": params.token, "sso_id": params.ssoId, "client_id" : 2, "client_secret" : "BookrAWOauthClientDummySecret4Mobile0000"};

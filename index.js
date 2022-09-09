@@ -9,7 +9,7 @@ var src = "";
 var started = new Date();
 var isSSOEnabled = undefined;
 
-function setSSOLoginSupport(isSupported) = {
+function setSSOLoginSupport(isSupported) {
 	isSSOEnabled = isSupported;
 }
 

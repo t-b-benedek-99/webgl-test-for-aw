@@ -13,8 +13,6 @@ function setSSOLoginSupport(isSupported) {
 	isSSOEnabled = isSupported;
 }
 
-console.log("is sso enabled : " + isSSOEnabled);
-
 var ssoOverride = {
     prod : "https://api.v2.bookrclass.com/api/",
     staging : "https://api.staging2.v2.bookrclass.com/api/",
@@ -324,6 +322,7 @@ function LoadMobile()
             });
         } else if (isSSOEnabled && params.ssoId && params.token) {
             //Login with deeplink provided token
+			console.log("is sso enabled : " + isSSOEnabled);
             console.log("ssoid login started");
             var body = { "token": params.token, "sso_id": params.ssoId, "client_id" : 2, "client_secret" : "BookrAWOauthClientDummySecret4Mobile0000"};
             var path =  "oauth/token/sso";
@@ -340,6 +339,7 @@ function LoadMobile()
             });
         } else {
             console.log("no login parameter is found");
+			console.log("is sso enabled : " + isSSOEnabled);
             //BookDataRecived({result: {list: [0]}}, false);
 			BookDataRecived(jsonData, false);
         }

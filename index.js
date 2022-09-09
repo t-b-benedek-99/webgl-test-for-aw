@@ -102,7 +102,7 @@ function sendBookReadingDataToBackend(result, params) {
 		
 		console.log("Book Reading Data sent to server : " + resultJson);
 		
-		let bookReadingDataEndpoint = "https://api.v2.bookrclass.com/api/mobile/child/" + currentChildId + "/readBook";
+		let bookReadingDataEndpoint = "https://api.thebookclub.com/api/mobile/child/" + currentChildId + "/readBook";
 	
 		fetch(bookReadingDataEndpoint, {
 			method: 'POST',
@@ -198,7 +198,7 @@ function BookDataRecived(jsonData, isLoggedIn)
     if (!bookId)
         bookId = params.bookId;
     //var src = "";
-    var posterImg = "https://api.v2.bookrclass.com/api/media/Ym9vay1jb3Zlci93LzMvdzNsa3p5ZzFZYW1pQjlxVXJMYU1vSFZseDU1UXJUeGhVT1VvbkVQWUs0LmpwZw==/original_4k.jpg";
+    var posterImg = undefined;
 
     var accessTokenQuery="";
     if (params.accessToken)
@@ -299,7 +299,7 @@ function LoadMobile()
         if (params.accessToken)
         {
             console.log("accessToken login started");
-            fetch('https://api.v2.bookrclass.com/api/mobile/users/me', { 
+            fetch('https://api.thebookclub.com/api/mobile/users/me', { 
                 method: 'get', 
                 headers: new Headers({
                     'Authorization': 'Bearer '+ params.accessToken, 

@@ -13,6 +13,8 @@ function setSSOLoginSupport(isSupported) {
 	isSSOEnabled = isSupported;
 }
 
+window.unityInstance.SendMessage('JavaScriptHook', 'TriggerSetSSOInJS');
+
 var ssoOverride = {
     prod : "https://api.v2.bookrclass.com/api/",
     staging : "https://api.staging2.v2.bookrclass.com/api/",

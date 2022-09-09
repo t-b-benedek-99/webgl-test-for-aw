@@ -7,7 +7,11 @@ var myVideoHtml = document.getElementById("my-video");
 var isCurrentBookFree = true;
 var src = "";
 var started = new Date();
-var isSSOEnabled = window.unityInstance.SendMessage('JavaScriptHook', 'IsSSOEnabled');
+var isSSOEnabled = undefined;
+
+function setSSOLoginSupport(isSupported) = {
+	isSSOEnabled = isSupported;
+}
 
 console.log("is sso enabled : " + isSSOEnabled);
 

@@ -7,13 +7,7 @@ var myVideoHtml = document.getElementById("my-video");
 var isCurrentBookFree = true;
 var src = "";
 var started = new Date();
-var isSSOEnabled = undefined;
-
-function setSSOLoginSupport(isSupported) {
-	isSSOEnabled = isSupported;
-}
-
-window.unityInstance.SendMessage('JavaScriptHook', 'TriggerSetSSOInJS');
+var isSSOEnabled = false;
 
 var ssoOverride = {
     prod : "https://api.v2.bookrclass.com/api/",

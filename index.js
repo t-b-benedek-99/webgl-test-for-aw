@@ -48,6 +48,10 @@ function myEndHandler(e) {
         pagesVisited: allPagesVisited,
         lastPageVisited: lastPageIndex,
     };
+	
+	if (currentChildId != null)
+		result.userId = currentChildId;
+	
     var resultJson = JSON.stringify(result)
     console.log(resultJson)
     window.top.postMessage(resultJson, '*');
@@ -74,6 +78,10 @@ function myPauseHandler(e) {
         pagesVisited: currPagesVisited,
         lastPageVisited: lastPageIndex,
     };
+	
+	if (currentChildId != null)
+		result.userId = currentChildId;
+	
     var resultJson = JSON.stringify(result)
     console.log(resultJson)
     window.top.postMessage(resultJson, '*');

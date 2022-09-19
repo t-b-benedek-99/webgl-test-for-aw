@@ -26,9 +26,10 @@ function myStartHandler(e) {
         console.log("Book is not free!");
         myVideoHtml.pause();
         //alert("This book is not free!");
-		$(window).load(function() {
+		$( document ).ready(function() {
+			console.log( "ready!" );
 			('#bookNotFreeModal').modal('show');
-		$('.modal-body').html('Subscribe to see this book!');
+			$('.modal-body').html('Subscribe to see this book!');
 		});
         /*var href = window.location.href;
         window.location.href = href.split('?')[0];*/

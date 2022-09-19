@@ -100,8 +100,28 @@
 	}
 
     </style>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
   <body style="text-align: center">
+	<!-- Book Not Free Popup Modal -->
+	<div class="modal fade" id="bookNotFreeModal" tabindex="-1" role="dialog" aria-labelledby="emailSentModalTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+		  <div class="modal-content">
+			<div class="modal-header text-center">
+			  <h5 class="modal-title text-center" id="emailSentModalLongTitle">Subscription needed</h5>
+			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			  </button>
+			</div>
+			<div class="modal-body text-center">
+			  ...
+			</div>
+			<div class="modal-footer  justify-content-center">
+			  <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+			</div>
+		  </div>
+		</div>
+	</div>
 	<div id="theSpinnerLoaderForMenu" class="loader" style="z-index: 1000; position: absolute; right: 0; left: 0; top: 0; bottom: 0; margin: auto; display: none;"></div>
     <canvas id="unity-canvas" style="background: url('Build/a4378e2f7373bd6d0cccd1f09de8f184.jpg.unityweb') center / cover"></canvas>
 	<div id="video_player_box" style="text-align: center; display: none;">
@@ -130,7 +150,7 @@
         web browser that
     </video-->
     <ul id="book-list"></ul>
-    <script src="Build/WebGL_test_build_2022_09_14_16_14.loader.js"></script>
+    <script src="Build/WebGL_test_build_2022_09_19_09_58.loader.js"></script>
     <script src="baseFunctions.js"></script>
     <script src="index.js"></script>
     <script>
@@ -148,7 +168,7 @@
           myobj2.remove();
 
           createUnityInstance(document.querySelector("#unity-canvas"), {
-            dataUrl: "Build/856cdd6439e0ef81ad1ca472f92fdc96.data.unityweb",
+            dataUrl: "Build/1d4bdb915cd3d9e36c54fd7b5923c873.data.unityweb",
             frameworkUrl: "Build/7464a950f3aa9b1f17b2ca75abb2a6ca.js.unityweb",
             codeUrl: "Build/f571101db9fc4c03d516e7d4ea42a57d.wasm.unityweb",
             streamingAssetsUrl: "StreamingAssets",
@@ -160,5 +180,8 @@
 		  });
       }
     </script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
 </html>

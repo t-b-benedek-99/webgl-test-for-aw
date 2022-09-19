@@ -29,7 +29,7 @@ function myStartHandler(e) {
 		//window.onload = function() {
 			console.log("Hello");
 			$('#bookNotFreeModal').modal('show');
-			$('.modal-body').html('Subscribe to see this book!');    
+			$('.modal-body').html('<strong>Subscribe to see this book!</strong>');    
 			console.log("Bello");
         //}
 		

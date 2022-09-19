@@ -26,12 +26,15 @@ function myStartHandler(e) {
         console.log("Book is not free!");
         myVideoHtml.pause();
         //alert("This book is not free!");
-		('#bookNotFreeModal').modal('show');
+		$(window).load(function() {
+			('#bookNotFreeModal').modal('show');
 		$('.modal-body').html('Subscribe to see this book!');
+		});
         /*var href = window.location.href;
         window.location.href = href.split('?')[0];*/
     }
 }
+
 function myEndHandler(e) {
     var ended = new Date();
     var distance = (ended.getTime() - started.getTime()) / 1000;

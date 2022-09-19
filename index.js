@@ -9,6 +9,16 @@ var src = "";
 var started = new Date();
 var isSSOEnabled = false;
 
+
+var DEBUG = false;
+if(!DEBUG){
+    if(!window.console) window.console = {};
+    var methods = ["log", "debug", "warn", "info"];
+    for(var i=0;i<methods.length;i++){
+        console[methods[i]] = function(){};
+    }
+}
+
 var ssoOverride = {
     prod : null,
     staging : null,

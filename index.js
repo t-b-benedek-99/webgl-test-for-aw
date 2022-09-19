@@ -25,12 +25,11 @@ function myStartHandler(e) {
     if (!isCurrentBookFree) {
         console.log("Book is not free!");
         myVideoHtml.pause();
-        //alert("This book is not free!");
-		$( document ).ready(function() {
-			console.log( "ready!" );
-			('#bookNotFreeModal').modal('show');
+        //alert("This book is not free!");		
+		window.onload = function() {
+            $('#bookNotFreeModal').modal('show');
 			$('.modal-body').html('Subscribe to see this book!');
-		});
+        }
         /*var href = window.location.href;
         window.location.href = href.split('?')[0];*/
     }

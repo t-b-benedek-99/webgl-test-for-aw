@@ -105,18 +105,18 @@
 	<!-- Book Not Free Popup Modal -->
 	<div class="modal fade" id="bookNotFreeModal" tabindex="-1" role="dialog" aria-labelledby="bookNotFreeModalTitle" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
-		  <div class="modal-content">
-			<div class="modal-header text-center">
+		  <div class="modal-content" style="background-image: linear-gradient(white, lightblue);">
+			<!--div class="modal-header text-center">
 			  <h5 class="modal-title text-center" id="subscriptionNeededModalLongTitle">Subscription needed</h5>
 			  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			  </button>
-			</div>
-			<div class="modal-body text-center display-4">
+			</div-->
+			<div class="modal-body text-center text-primary">
 			  ...
 			</div>
 			<div class="modal-footer  justify-content-center">
-			  <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+			  <button type="button" class="btn btn-primary" data-dismiss="modal"><strong><h2 class="text-white">Close</h2></strong></button>
 			</div>
 		  </div>
 		</div>
@@ -152,7 +152,7 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="Build/WebGL_test_build_2022_09_19_13_45.loader.js"></script>
+    <script src="Build/WebGL_test_build_2022_09_20_09_36.loader.js"></script>
     <script src="baseFunctions.js"></script>
     <script src="index.js"></script>
     <script>
@@ -170,7 +170,7 @@
           myobj2.remove();
 
           createUnityInstance(document.querySelector("#unity-canvas"), {
-            dataUrl: "Build/7ed7084472688b037d0cef14849c515e.data.unityweb",
+            dataUrl: "Build/8adf9fa59c80c896b488b16399a186b4.data.unityweb",
             frameworkUrl: "Build/ab6915103cd4f2540c8c9803a41f14ea.js.unityweb",
             codeUrl: "Build/b065747b25eccd8ff63c13382cb0d532.wasm.unityweb",
             streamingAssetsUrl: "StreamingAssets",

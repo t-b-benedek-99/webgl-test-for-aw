@@ -380,3 +380,5 @@ function LoadMobile()
     });
     */
 }
+
+window.onblur = (event) => { pauseBook(); };

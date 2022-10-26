@@ -30,6 +30,14 @@ var currentChildId = null;
 
 var currentVideoSeekerPosition = 0;
 
+function isVideoOverride() {
+	const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+    });
+	
+	return (params.forceVideoMode && params.forceVideoMode === true);
+}
+
 function myStartHandler(e) {
     console.log("play event was called");
     started = new Date();

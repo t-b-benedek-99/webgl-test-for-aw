@@ -38,7 +38,7 @@ function isVideoOverride() {
 	console.log('checking params for isVideoOverride');
 	console.log('params.forceVideoMode : ' + params.forceVideoMode);
 	
-	return params.forceVideoMode && params.forceVideoMode == true;
+	return params.forceVideoMode;
 }
 
 function myStartHandler(e) {

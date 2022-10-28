@@ -222,7 +222,6 @@ function Loading(isLoading)
 function BookDataRecived(jsonData, isLoggedIn)
 {
 	console.log("isLoggedIn : " + isLoggedIn);	
-	console.log("currentSubscription : " + currentSubscription.toString());
     isCurrentBookFree = isLoggedIn && currentSubscription && currentSubscription.expirationTime && new Date(currentSubscription.expirationTime) > new Date();
     console.log("books data arrived");
     LoadingMenu(false);

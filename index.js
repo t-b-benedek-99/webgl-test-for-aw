@@ -10,7 +10,7 @@ var started = new Date();
 var isSSOEnabled = false;
 
 
-var DEBUG = true;
+var DEBUG = false;
 if(!DEBUG){
     if(!window.console) window.console = {};
     //var methods = ["log", "debug", "warn", "info"];
@@ -27,6 +27,7 @@ var ssoOverride = {
 }
 var currentBooksNumOfPages = 0;
 var currentChildId = null;
+var currentSubscription = null;
 
 var currentVideoSeekerPosition = 0;
 
@@ -221,7 +222,7 @@ function Loading(isLoading)
 function BookDataRecived(jsonData, isLoggedIn)
 {
 	console.log("isLoggedIn : " + isLoggedIn);	
-    isCurrentBookFree = isLoggedIn;
+    isCurrentBookFree = isLoggedIn && currentSubscription && currentSubscription.expirationTime && new Date(currentSubscription.expirationTime) > new Date();
     console.log("books data arrived");
     LoadingMenu(false);
     const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -345,6 +346,7 @@ function LoadMobile()
 				// console.log(data);
 				// console.log("user id is : " + data.result.id);
 				currentChildId = data.result.id;
+				currentSubscription = data.result.subscription;
 			}).catch((error) => {
                 console.error('Error:', error);
                 BookDataRecived(jsonData, false);

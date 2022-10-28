@@ -219,11 +219,10 @@ function Loading(isLoading)
     return 
 }
 
-function BookDataRecived(jsonData, isLoggedIn)
+function BookDataRecived(jsonData, isAllowedToSeePaidBooks)
 {
-	console.log("isLoggedIn : " + isLoggedIn);	
-	console.log("currentSubscription : " + currentSubscription.toString());
-    isCurrentBookFree = isLoggedIn && currentSubscription && currentSubscription.expirationTime && new Date(currentSubscription.expirationTime) > new Date();
+	console.log("isAllowedToSeePaidBooks : " + isAllowedToSeePaidBooks);	
+    isCurrentBookFree = isAllowedToSeePaidBooks;
     console.log("books data arrived");
     LoadingMenu(false);
     const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -341,13 +340,13 @@ function LoadMobile()
                     'Content-Type': 'application/json'
                 })
             }).then(response => {
-                BookDataRecived(jsonData, response.ok);
+                //BookDataRecived(jsonData, response.ok);
 				return response.json();
             }).then(data => {
-				// console.log(data);
-				// console.log("user id is : " + data.result.id);
 				currentChildId = data.result.id;
 				currentSubscription = data.result.subscription;
+				let isAllowedToSeePaidBooks = currentChildId && currentSubscription && currentSubscription.expirationTime && new Date(currentSubscription.expirationTime) > new Date();;
+				BookDataRecived(jsonData, isAllowedToSeePaidBooks);
 			}).catch((error) => {
                 console.error('Error:', error);
                 BookDataRecived(jsonData, false);

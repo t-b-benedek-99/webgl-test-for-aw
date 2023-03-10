@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | {{{ PRODUCT_NAME }}}</title>
+    <style>
+      html, 
+      body {
+          width: 100%;
+          height: 100%;
+          padding: 0;
+          margin: 0;
+          color: black;
+          position: relative;
+      }
+
+      video_player_box, canvas, iframe, video, figure {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        width: 100%; 
+        height: 100%; 
+        background-color: black; 
+        max-width: {{{WIDTH}}}px; 
+        max-height: {{{HEIGHT}}}px; 
+      }
+	  
+	  #playpausebtn {
+		margin: 0;
+        position: absolute;
+		width: 100%;
+		height: 100%;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+	  }
+
+	  /*
+	  figcaption {
+		position: absolute;
+		bottom: -40px;
+		align-items: center;
+		background: #eaeaea;
+		width: 100%;
+		max-width: 1120px;
+		height: 40px;
+		padding: 0;
+		margin: 0;
+	  }
+	  
+	  #progress {
+		width: 82%;
+		max-width: 1120px;
+		height: 38px;
+		margin: 0;
+		padding: 0;
+	  }
+	  */
+	  #my-video, #videosrc {
+		max-width: 100vw;
+		padding: 0;
+		margin: 0;
+	  }
+
+	/*audio::-webkit-media-controls,
+	video::-webkit-media-controls {
+		display: none;
+	}
+	
+	audio::-webkit-media-controls-timeline,
+	video::-webkit-media-controls-timeline {
+		display: block;
+	}*/
+	
+	/* For the loader spiner */
+	.loader {
+	  border: 16px solid #f3f3f3;
+	  border-radius: 50%;
+	  border-top: 16px solid #3498db;
+	  width: 120px;
+	  height: 120px;
+	  -webkit-animation: spin 2s linear infinite; /* Safari */
+	  animation: spin 2s linear infinite;
+	}
+
+	/* Safari */
+	@-webkit-keyframes spin {
+	  0% { -webkit-transform: rotate(0deg); }
+	  100% { -webkit-transform: rotate(360deg); }
+	}
+
+	@keyframes spin {
+	  0% { transform: rotate(0deg); }
+	  100% { transform: rotate(360deg); }
+	}
+
+    </style>
+  </head>
+  <body style="text-align: center">
+	<div id="theSpinnerLoaderForMenu" class="loader" style="z-index: 1000; position: absolute; right: 0; left: 0; top: 0; bottom: 0; margin: auto; display: none;"></div>
+    <canvas id="unity-canvas" style="background: {{{ BACKGROUND_FILENAME ? 'url(\'Build/' + BACKGROUND_FILENAME.replace(/'/g, '%27') + '\') center / cover' : BACKGROUND_COLOR }}}"></canvas>
+	<div id="video_player_box" style="text-align: center; display: none;">
+		<div id="theSpinnerLoader" class="loader" style="z-index: 1000; position: absolute; right: 0; left: 0; top: 0; bottom: 0; margin: auto; display: none;"></div>
+		<figure>
+			<video id="my-video" playsinline autoplay controls poster="./bookr-class-logo-with-bg.jpg">
+				<source id="videosrc" src="" type="video/mp4" />
+					To view this video please enable JavaScript, and consider upgrading to a
+					web browser that
+			</video>
+			<!-- CODE FOR CUSTOM PROGRESS BAR - Pls don't delete it, because customer asked for this, but then he changed his mind - Maybe it will be useful again in the future!
+			<!--figcaption>
+				<progress id="progress" max="100" value="0">Progress</progress>
+			</figcaption-->
+		</figure>
+		<!-- Custom Play Button - Don't delete it - Customer asked for this but then changed his mind -->
+		<!--div id="video_controls_bar" style="opacity: 0">
+			<!--img id="playpausebtn" onclick="playPause(this,'my-video')" src="white-play-icon-png-4.jpg"/-->
+			<!--img id="playpausebtn" onclick="playPause(this,'my-video')"/-->
+		<!--/div-->
+	</div>
+	<!-- Original video tag and content was: -->
+    <!--video id="my-video" controls >
+      <source id="videosrc" src="https://bkrapi-win.v2.bookrclass.com/convertedBooks/ID97_20211112130024.mp4" type="video/mp4" />
+        To view this video please enable JavaScript, and consider upgrading to a
+        web browser that
+    </video-->
+    <ul id="book-list"></ul>
+    <script src="Build/{{{ LOADER_FILENAME }}}"></script>
+    <script src="baseFunctions.js"></script>
+    <script src="index.js"></script>
+    <script>
+      if (isVideoPlayerNeeded()) {         
+          LoadMobile();
+		  
+		  document.getElementById("video_player_box").style.display = "block";
+
+          var myobj = document.getElementById("unity-canvas");
+          myobj.remove();
+      } else {
+          var myobj = document.getElementById("video_player_box");
+          myobj.remove();
+          let myobj2 = document.getElementById("book-list");
+          myobj2.remove();
+
+          createUnityInstance(document.querySelector("#unity-canvas"), {
+            dataUrl: "Build/{{{ DATA_FILENAME }}}",
+            frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
+            codeUrl: "Build/{{{ CODE_FILENAME }}}",
+    #if MEMORY_FILENAME
+            memoryUrl: "Build/{{{ MEMORY_FILENAME }}}",
+    #endif
+    #if SYMBOLS_FILENAME
+            symbolsUrl: "Build/{{{ SYMBOLS_FILENAME }}}",
+    #endif
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "{{{ COMPANY_NAME }}}",
+            productName: "{{{ PRODUCT_NAME }}}",
+            productVersion: "{{{ PRODUCT_VERSION }}}",
+          }).then((unityInstance) => {
+			window.unityInstance = unityInstance;
+		  });
+      }
+    </script>
+  </body>
+</html>

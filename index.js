@@ -247,8 +247,8 @@ function BookDataRecived(jsonData, isAllowedToSeePaidBooks)
         if (bookListHtmlItem) bookListHtmlItem.appendChild(li);
 
         if (book.id == bookId) {
-            src = "https://video-books.thebookclub.com/book" + bookId + ".mp4"
-            posterImg = "https://video-books.thebookclub.com/book" + bookId + ".jpg";
+            src = "https://d2t07idmgsdlc8.cloudfront.net/book" + bookId + ".mp4"
+            posterImg = "https://d2t07idmgsdlc8.cloudfront.net/book" + bookId + ".jpg";
             isCurrentBookFree = isCurrentBookFree || book.isFree;
             console.log("isCurrentBookFree : " + isCurrentBookFree);
         }

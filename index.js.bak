@@ -7,40 +7,15 @@ var myVideoHtml = document.getElementById("my-video");
 var isCurrentBookFree = true;
 var src = "";
 var started = new Date();
-var isSSOEnabled = false;
-
-
-var DEBUG = true;
-if(!DEBUG){
-    if(!window.console) window.console = {};
-    //var methods = ["log", "debug", "warn", "info"];
-    var methods = ["log", "debug", "warn"];
-    for(var i=0;i<methods.length;i++){
-        console[methods[i]] = function(){};
-    }
-}
-
 var ssoOverride = {
-    prod : null,
-    staging : null,
-    "vcloud-mock": null
+    prod : "https://api.v2.bookrclass.com/api/",
+    staging : "https://api.staging2.v2.bookrclass.com/api/",
+    "vcloud-mock": "https://bookr-sso-mock-creatit-server.herokuapp.com/api/"
 }
 var currentBooksNumOfPages = 0;
 var currentChildId = null;
-var currentSubscription = null;
 
 var currentVideoSeekerPosition = 0;
-
-function isVideoOverride() {
-	const params = new Proxy(new URLSearchParams(window.location.search), {
-        get: (searchParams, prop) => searchParams.get(prop),
-    });
-	
-	console.log('checking params for isVideoOverride');
-	console.log('params.forceVideoMode : ' + params.forceVideoMode);
-	
-	return params.forceVideoMode && params.forceVideoMode == true;
-}
 
 function myStartHandler(e) {
     console.log("play event was called");
@@ -48,14 +23,11 @@ function myStartHandler(e) {
     if (!isCurrentBookFree) {
         console.log("Book is not free!");
         myVideoHtml.pause();
-        //alert("This book is not free!");		
-		$('#bookNotFreeModal').modal('show');
-		$('.modal-body').html('<strong><h1>Subscribe to see this book!<h1></strong>');		
+        alert("This book is not free!");
         /*var href = window.location.href;
         window.location.href = href.split('?')[0];*/
     }
 }
-
 function myEndHandler(e) {
     var ended = new Date();
     var distance = (ended.getTime() - started.getTime()) / 1000;
@@ -74,10 +46,6 @@ function myEndHandler(e) {
         pagesVisited: allPagesVisited,
         lastPageVisited: lastPageIndex,
     };
-	
-	if (currentChildId != null)
-		result.userId = currentChildId;
-	
     var resultJson = JSON.stringify(result)
     console.log(resultJson)
     window.top.postMessage(resultJson, '*');
@@ -104,10 +72,6 @@ function myPauseHandler(e) {
         pagesVisited: currPagesVisited,
         lastPageVisited: lastPageIndex,
     };
-	
-	if (currentChildId != null)
-		result.userId = currentChildId;
-	
     var resultJson = JSON.stringify(result)
     console.log(resultJson)
     window.top.postMessage(resultJson, '*');
@@ -136,7 +100,7 @@ function sendBookReadingDataToBackend(result, params) {
 		
 		console.log("Book Reading Data sent to server : " + resultJson);
 		
-		let bookReadingDataEndpoint = "https://api.thebookclub.com/api/mobile/child/" + currentChildId + "/readBook";
+		let bookReadingDataEndpoint = "https://api.v2.bookrclass.com/api/mobile/child/" + currentChildId + "/readBook";
 	
 		fetch(bookReadingDataEndpoint, {
 			method: 'POST',
@@ -219,10 +183,10 @@ function Loading(isLoading)
     return 
 }
 
-function BookDataRecived(jsonData, isAllowedToSeePaidBooks)
+function BookDataRecived(jsonData, isLoggedIn)
 {
-	console.log("isAllowedToSeePaidBooks : " + isAllowedToSeePaidBooks);	
-    isCurrentBookFree = isAllowedToSeePaidBooks;
+	console.log("isLoggedIn : " + isLoggedIn);	
+    isCurrentBookFree = isLoggedIn;
     console.log("books data arrived");
     LoadingMenu(false);
     const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -232,7 +196,7 @@ function BookDataRecived(jsonData, isAllowedToSeePaidBooks)
     if (!bookId)
         bookId = params.bookId;
     //var src = "";
-    var posterImg = undefined;
+    var posterImg = "https://api.v2.bookrclass.com/api/media/Ym9vay1jb3Zlci93LzMvdzNsa3p5ZzFZYW1pQjlxVXJMYU1vSFZseDU1UXJUeGhVT1VvbkVQWUs0LmpwZw==/original_4k.jpg";
 
     var accessTokenQuery="";
     if (params.accessToken)
@@ -247,8 +211,14 @@ function BookDataRecived(jsonData, isAllowedToSeePaidBooks)
         if (bookListHtmlItem) bookListHtmlItem.appendChild(li);
 
         if (book.id == bookId) {
-            src = "https://video-books.thebookclub.com/book" + bookId + ".mp4"
-            posterImg = "https://video-books.thebookclub.com/book" + bookId + ".jpg";
+            if (book.previewUrls)
+            {
+                src = book.previewUrls.original;
+            } else {
+                alert("This video is unavailable on mobile");
+            }
+            
+            posterImg = book.coverUrls.optimal;
             isCurrentBookFree = isCurrentBookFree || book.isFree;
             console.log("isCurrentBookFree : " + isCurrentBookFree);
         }
@@ -256,7 +226,6 @@ function BookDataRecived(jsonData, isAllowedToSeePaidBooks)
     
     if (bookId){
         videoPlayerBoyHtml.hidden = false;
-		videoPlayerBoyHtml.style.display = "block";
         bookListHtmlItem.remove();
     } else {
         bookListHtmlItem.hidden = false;
@@ -275,9 +244,9 @@ function BookDataRecived(jsonData, isAllowedToSeePaidBooks)
 		  
 		  currentVideoSeekerPosition = seekerPercent;
 		  
-		  /*if (seekerPercent > 80) {
+		  if (seekerPercent > 80) {
 			  myMoreThanEigthyPercentReachedHandler(seekerPercent);
-		  }*/
+		  }
 		});
 		
         /*myVideoHtml.addEventListener("click", function(event) { 
@@ -311,7 +280,7 @@ function LoadMobile()
         bookId = params.bookId;
 
 	// production:
-	let bookDataUrl = "https://api.thebookclub.com/api/mobile/books";
+	let bookDataUrl = bookId ? "https://api.v2.bookrclass.com/api/mobile/books?filters[id][]=" + bookId : "https://api.v2.bookrclass.com/api/mobile/books";
 	
 	// staging:
 	//let bookDataUrl = bookId ? "https://api.staging.v2.bookrclass.com/api/mobile/books?filters[id][]=" + bookId : "https://api.staging.v2.bookrclass.com/api/mobile/books";
@@ -333,27 +302,25 @@ function LoadMobile()
         if (params.accessToken)
         {
             console.log("accessToken login started");
-            fetch('https://api.thebookclub.com/api/mobile/users/me', { 
+            fetch('https://api.v2.bookrclass.com/api/mobile/users/me', { 
                 method: 'get', 
                 headers: new Headers({
                     'Authorization': 'Bearer '+ params.accessToken, 
                     'Content-Type': 'application/json'
                 })
             }).then(response => {
-                //BookDataRecived(jsonData, response.ok);
+                BookDataRecived(jsonData, response.ok);
 				return response.json();
             }).then(data => {
+				// console.log(data);
+				// console.log("user id is : " + data.result.id);
 				currentChildId = data.result.id;
-				currentSubscription = data.result.subscription;
-				let isAllowedToSeePaidBooks = currentChildId && currentSubscription;
-				BookDataRecived(jsonData, isAllowedToSeePaidBooks);
 			}).catch((error) => {
                 console.error('Error:', error);
                 BookDataRecived(jsonData, false);
             });
-        } else if (isSSOEnabled && params.ssoId && params.token) {
+        } else if (params.ssoId && params.token) {
             //Login with deeplink provided token
-			console.log("is sso enabled : " + isSSOEnabled);
             console.log("ssoid login started");
             var body = { "token": params.token, "sso_id": params.ssoId, "client_id" : 2, "client_secret" : "BookrAWOauthClientDummySecret4Mobile0000"};
             var path =  "oauth/token/sso";
@@ -370,7 +337,6 @@ function LoadMobile()
             });
         } else {
             console.log("no login parameter is found");
-			console.log("is sso enabled : " + isSSOEnabled);
             //BookDataRecived({result: {list: [0]}}, false);
 			BookDataRecived(jsonData, false);
         }
@@ -393,5 +359,3 @@ function LoadMobile()
     });
     */
 }
-
-window.onblur = (event) => { pauseBook(); };
